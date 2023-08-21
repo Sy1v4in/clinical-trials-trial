@@ -1,4 +1,18 @@
 {
   "name": "business",
-  "packageManager": "yarn@3.6.1"
+  "packageManager": "yarn@3.6.1",
+  "scripts": {
+    "compile": "tsc --noEmit",
+    "ts": "node --require esbuild-register",
+    "test": "yarn ts --test test/**/*.test.ts"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "@types/node": "^20.5.1",
+    "esbuild": "^0.19.2",
+    "esbuild-register": "^3.4.2",
+    "factory.ts": "^1.4.1",
+    "sinon": "^15.2.0",
+    "typescript": "^5.1.6"
+  }
 }
