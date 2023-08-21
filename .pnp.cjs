@@ -20,6 +20,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/api"\
       },\
       {\
+        "name": "business",\
+        "reference": "workspace:packages/business"\
+      },\
+      {\
         "name": "cli",\
         "reference": "workspace:packages/cli"\
       }\
@@ -28,6 +32,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
     "fallbackExclusionList": [\
       ["api", ["workspace:packages/api"]],\
+      ["business", ["workspace:packages/business"]],\
       ["cli", ["workspace:packages/cli"]],\
       ["senior-take-home-test", ["workspace:."]]\
     ],\
@@ -327,6 +332,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["unpipe", "npm:1.0.0"]\
           ],\
           "linkType": "HARD"\
+        }]\
+      ]],\
+      ["business", [\
+        ["workspace:packages/business", {\
+          "packageLocation": "./packages/business/",\
+          "packageDependencies": [\
+            ["business", "workspace:packages/business"]\
+          ],\
+          "linkType": "SOFT"\
         }]\
       ]],\
       ["bytes", [\

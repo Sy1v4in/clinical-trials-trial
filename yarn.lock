@@ -251,6 +251,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"business@workspace:packages/business":
+  version: 0.0.0-use.local
+  resolution: "business@workspace:packages/business"
+  languageName: unknown
+  linkType: soft
+
 "bytes@npm:3.1.2":
   version: 3.1.2
   resolution: "bytes@npm:3.1.2"
