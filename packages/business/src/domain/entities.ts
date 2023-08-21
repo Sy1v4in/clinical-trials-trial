@@ -22,4 +22,4 @@ type ClinicalTrial = {
   endDate: Date
 }
 
-export { COUNTRIES, CountryCode, CountryName, ClinicalTrial }
+export { COUNTRIES, Country, CountryCode, CountryName, ClinicalTrial }
