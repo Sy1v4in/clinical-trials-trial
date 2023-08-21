@@ -1,5 +1,5 @@
 {
-  "name": "senior-take-home-test",
+  "name": "clinical-trials-trial",
   "packageManager": "yarn@3.6.1",
   "workspaces": [
     "packages/*"

@@ -704,9 +704,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"senior-take-home-test@workspace:.":
+"clinical-trials-trial@workspace:.":
   version: 0.0.0-use.local
-  resolution: "senior-take-home-test@workspace:."
+  resolution: "clinical-trials-trial@workspace:."
   dependencies:
     typescript: ^5.1.6
   languageName: unknown
