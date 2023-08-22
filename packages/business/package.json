@@ -1,6 +1,7 @@
 {
   "name": "business",
   "packageManager": "yarn@3.6.1",
+  "main": "src/index.ts",
   "scripts": {
     "compile": "tsc --noEmit",
     "ts": "node --require esbuild-register",
