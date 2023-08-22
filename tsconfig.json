@@ -4,6 +4,9 @@
       "path": "./packages/api"
     },
     {
+      "path": "./packages/business"
+    },
+    {
       "path": "./packages/cli"
     }
   ]
