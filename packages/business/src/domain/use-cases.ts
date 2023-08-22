@@ -1,4 +1,4 @@
-import { FindClinicalTrials } from '../ports/repository'
+import { FindClinicalTrials } from '../ports'
 import { ClinicalTrial, CountryCode } from './entities'
 
 type OnGoingFilter = { sponsorName?: string, countryCode?: CountryCode }

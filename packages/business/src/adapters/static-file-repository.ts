@@ -2,7 +2,7 @@ import path from 'node:path'
 import { readFile } from 'node:fs/promises'
 
 import { COUNTRIES, ClinicalTrial } from '../domain'
-import { Filter, FindClinicalTrials } from '../ports/repository'
+import { Filter, FindClinicalTrials } from '../ports'
 
 type ApiClinicalTrial = {
   name: string

@@ -3,8 +3,8 @@ import { afterEach, beforeEach, describe, it } from 'node:test'
 import sinon from 'sinon'
 
 import { ClinicalTrial } from '../src/domain'
-import { Filter } from '../src/ports/repository'
-import { getOnGoingClinicalTrials } from '../src/get-ongoing-clinical-trials'
+import { Filter } from '../src/ports'
+import { getOnGoingClinicalTrials } from '../src'
 
 import { clinicalTrialsFactory } from './factories/clinical-trials'
 

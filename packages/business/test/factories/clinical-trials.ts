@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import * as Factory from 'factory.ts'
 
-import {COUNTRIES, ClinicalTrial, Country, CountryCode} from '../../src/domain'
+import { COUNTRIES, ClinicalTrial, Country, CountryCode } from '../../src/domain'
 
 const generateCountry = (): Country => {
   const countries = Object.entries(COUNTRIES)
