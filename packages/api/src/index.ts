@@ -1,12 +1,7 @@
-import express, { Express, Response } from "express";
+import { adapters as businessAdapters } from 'business'
 
-const app: Express = express();
-const port = 8080;
+import { startApp } from './app'
 
-app.get("/ping", (_req, res: Response) => {
-  res.send("pong");
-});
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+startApp({
+  findClinicalTrials: businessAdapters.findClinicalTrials,
+})
