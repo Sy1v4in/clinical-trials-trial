@@ -6,6 +6,7 @@ import request from 'supertest'
 
 import {createApp} from '../../src/app'
 import {clinicalTrialsFactory} from '../factories/clinical-trials'
+import {toOngoingClinicalTrial} from "../../src/handlers/get-ongoing-clinical-trials-handler";
 
 describe('GetOngoingClinicalTrialsHandler', () => {
   let sandbox: sinon.SinonSandbox,
@@ -23,6 +24,6 @@ describe('GetOngoingClinicalTrialsHandler', () => {
 
     const response = await request(app).get('/on-goings')
 
-    assert.deepEqual(response.body.map(JSON.stringify), onGoingClinicalTrials.map(JSON.stringify))
+    assert.deepEqual(response.body, onGoingClinicalTrials.map(toOngoingClinicalTrial))
   })
 })
