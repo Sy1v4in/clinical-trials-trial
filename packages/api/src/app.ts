@@ -1,10 +1,14 @@
 import express, { Response } from 'express'
 
-const createApp = () =>
-  express()
-    .get('/ping', (_req, res: Response) =>  res.send('pong'))
+import { Adapters } from './types'
+import { getOngoingClinicalTrialsHandler } from './handlers/get-ongoing-clinical-trials-handler'
 
-const startApp = (port = 8080) =>
-    createApp().listen(port, () => console.log(`Server running on port ${port} 🍺`))
+const createApp = (adapters: Adapters) =>
+  express()
+  .get('/ping', (_req, res: Response) =>  res.send('pong'))
+  .get('/on-goings', getOngoingClinicalTrialsHandler(adapters))
+
+const startApp = (adapters: Adapters, port = 8080) =>
+  createApp(adapters).listen(port, () => console.log(`Server running on port ${port} 🍺`))
 
 export { createApp, startApp }

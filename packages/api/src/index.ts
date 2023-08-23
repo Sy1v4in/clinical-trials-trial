@@ -1,4 +1,7 @@
+import { adapters as businessAdapters } from 'business'
+
 import { startApp } from './app'
 
-startApp()
-
+startApp({
+  findClinicalTrials: businessAdapters.findClinicalTrials,
+})
