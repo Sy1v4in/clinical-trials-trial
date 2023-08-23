@@ -36,6 +36,7 @@ describe('GetOngoingClinicalTrialsHandler', () => {
   it('should return the valid trials returned by findClinicalTrials', async () => {
     const response = await request(app).get('/on-goings')
 
+    assert.equal(response.statusCode, 200)
     assert.deepEqual(response.body, onGoingClinicalTrials.slice(0, 4).map(toOngoingClinicalTrial))
   })
 
@@ -43,6 +44,7 @@ describe('GetOngoingClinicalTrialsHandler', () => {
     it('should return the trials filtered by the sponsor', async () => {
       const response = await request(app).get('/on-goings?sponsor=Sanofi')
 
+      assert.equal(response.statusCode, 200)
       assert.deepEqual(response.body, onGoingClinicalTrials.slice(0, 3).map(toOngoingClinicalTrial))
     })
   })
@@ -51,7 +53,16 @@ describe('GetOngoingClinicalTrialsHandler', () => {
     it('should return the trials filtered by the sponsor', async () => {
       const response = await request(app).get('/on-goings?sponsor=Sanofi&country=FR')
 
+      assert.equal(response.statusCode, 200)
       assert.deepEqual(response.body, onGoingClinicalTrials.slice(0, 2).map(toOngoingClinicalTrial))
+    })
+  })
+
+  describe('when the code country does not match an actual code', () => {
+    it('should fail with an error 400', async () => {
+      const response = await request(app).get('/on-goings?country=BAD')
+
+      assert.equal(response.statusCode, 400)
     })
   })
 })

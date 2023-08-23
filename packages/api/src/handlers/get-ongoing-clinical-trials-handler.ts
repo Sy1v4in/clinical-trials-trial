@@ -1,4 +1,5 @@
 import express from 'express'
+import { checkSchema, validationResult } from 'express-validator'
 
 import { domain, getOnGoingClinicalTrials } from 'business'
 
@@ -11,19 +12,36 @@ type OngoingClinicalTrial = {
   sponsor: string
 }
 
-type RequestQuery = {
+type ValidatedRequestQuery = {
   sponsor?: string
-  country?: string
+  country?: domain.CountryCode
 }
 
-type Request = express.Request<{}, {}, {}, RequestQuery>
+type Request = express.Request<{}, {}, {}, ValidatedRequestQuery>
+
+const checkValidity = checkSchema({
+  sponsor: {
+    optional: true,
+    isString: true,
+  },
+  country: {
+    optional: true,
+    custom: {
+      options: (country) => domain.guards.isCountryCode(country),
+    },
+  },
+})
 
 const getOngoingClinicalTrialsHandler = ({ findClinicalTrials }: Adapters) => {
   const findOnGoingClinicalTrials = getOnGoingClinicalTrials(findClinicalTrials)
   return async (req: Request, res: express.Response) => {
+    const result = validationResult(req)
+    if (!result.isEmpty()) {
+      return res.status(400).json({ errors: result.array() })
+    }
+
     const { sponsor, country } = req.query
-    const countryCode = domain.guards.isCountryCode(country) ? country : null
-    const onGoingClinicalTrials = await findOnGoingClinicalTrials({ sponsorName: sponsor, countryCode })
+    const onGoingClinicalTrials = await findOnGoingClinicalTrials({ sponsorName: sponsor, countryCode: country })
     res.status(200).json(onGoingClinicalTrials.map(toOngoingClinicalTrial))
   }
 }
@@ -37,4 +55,4 @@ const toOngoingClinicalTrial = (clinicalTrial: domain.ClinicalTrial): OngoingCli
 
 const format = (date: Date): string => date.toISOString().split('T')[0]
 
-export { getOngoingClinicalTrialsHandler, toOngoingClinicalTrial }
+export { checkValidity, getOngoingClinicalTrialsHandler, toOngoingClinicalTrial }
