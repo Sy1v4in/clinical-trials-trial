@@ -12,7 +12,8 @@ type OngoingClinicalTrial = {
 }
 
 type RequestQuery = {
-  sponsor: string
+  sponsor?: string
+  country?: string
 }
 
 type Request = express.Request<{}, {}, {}, RequestQuery>
@@ -20,8 +21,9 @@ type Request = express.Request<{}, {}, {}, RequestQuery>
 const getOngoingClinicalTrialsHandler = ({ findClinicalTrials }: Adapters) => {
   const findOnGoingClinicalTrials = getOnGoingClinicalTrials(findClinicalTrials)
   return async (req: Request, res: express.Response) => {
-    const { sponsor } = req.query
-    const onGoingClinicalTrials = await findOnGoingClinicalTrials({ sponsorName: sponsor })
+    const { sponsor, country } = req.query
+    const countryCode = domain.guards.isCountryCode(country) ? country : null
+    const onGoingClinicalTrials = await findOnGoingClinicalTrials({ sponsorName: sponsor, countryCode })
     res.status(200).json(onGoingClinicalTrials.map(toOngoingClinicalTrial))
   }
 }

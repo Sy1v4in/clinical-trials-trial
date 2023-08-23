@@ -46,4 +46,12 @@ describe('GetOngoingClinicalTrialsHandler', () => {
       assert.deepEqual(response.body, onGoingClinicalTrials.slice(0, 3).map(toOngoingClinicalTrial))
     })
   })
+
+  describe('when a sponsor name and a country code are provided as query params', () => {
+    it('should return the trials filtered by the sponsor', async () => {
+      const response = await request(app).get('/on-goings?sponsor=Sanofi&country=FR')
+
+      assert.deepEqual(response.body, onGoingClinicalTrials.slice(0, 2).map(toOngoingClinicalTrial))
+    })
+  })
 })
