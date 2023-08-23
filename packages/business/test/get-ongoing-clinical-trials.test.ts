@@ -1,45 +1,20 @@
 import assert from 'node:assert/strict'
-import { afterEach, beforeEach, describe, it } from 'node:test'
+import { beforeEach, describe, it } from 'node:test'
+import { faker } from '@faker-js/faker'
 import sinon from 'sinon'
 
 import { ClinicalTrial } from '../src/domain'
-import { Filter } from '../src/ports/repository'
-import { getOnGoingClinicalTrials } from '../src/get-ongoing-clinical-trials'
+import { getOnGoingClinicalTrials } from '../src'
 
 import { clinicalTrialsFactory } from './factories/clinical-trials'
 
 describe('Get OnGoing clinical trials', () => {
-  const now = new Date()
-  let clock,
-    sandbox: sinon.SinonSandbox,
-    findClinicalTrials: sinon.SinonStub<sinon.SinonStubArgs<Filter>, Promise<ClinicalTrial[]>>
+  let sandbox: sinon.SinonSandbox,
+    findClinicalTrials: sinon.SinonStub<void, Promise<ClinicalTrial[]>>
 
   beforeEach(() => {
-    clock = sinon.useFakeTimers(now.getTime())
     sandbox = sinon.createSandbox()
     findClinicalTrials = sandbox.stub()
-  })
-
-  afterEach(() => clock.restore())
-
-  it('should call the repository with the right dates and cancel', async () => {
-    await getOnGoingClinicalTrials(findClinicalTrials)()
-
-    assert.ok(findClinicalTrials.withArgs({ cancel: false, before: now, after: now }).calledOnce)
-  })
-
-  describe('When a sponsor name and a country code are provided in the search filter', () => {
-    it('should call the repository with the right dates, cancel, sponsor name and country code', async () => {
-      await getOnGoingClinicalTrials(findClinicalTrials)({ sponsorName: 'Sanofi', countryCode: 'DE' })
-
-      assert.ok(findClinicalTrials.withArgs({
-        cancel: false,
-        before: now,
-        after: now,
-        sponsorName: 'Sanofi',
-        countryCode: 'DE',
-      }).calledOnce)
-    })
   })
 
   describe('When the repository does not return any result', () => {
@@ -54,13 +29,20 @@ describe('Get OnGoing clinical trials', () => {
   })
 
   describe('When the repository return some trials', () => {
-    it('should return the same trials', async () => {
-      const onGoingClinicalTrials = clinicalTrialsFactory.buildList(3)
+    it('should return the matching filtered trials', async () => {
+      const onGoingClinicalTrials = [
+        clinicalTrialsFactory.build({ sponsor: 'Sanofi', country: { code: 'FR' } }),
+        clinicalTrialsFactory.build({ sponsor: 'Sanofi', country: { code: 'FR' } }),
+        clinicalTrialsFactory.build({ sponsor: 'Glaxo', country: { code: 'FR' } }),
+        clinicalTrialsFactory.build({ sponsor: 'Sanofi', country: { code: 'FR' }, endDate: faker.date.past() }),
+        clinicalTrialsFactory.build({ sponsor: 'Sanofi', country: { code: 'DE' }  }),
+      ]
       findClinicalTrials.resolves(onGoingClinicalTrials)
 
-      const clinicalTrials = await getOnGoingClinicalTrials(findClinicalTrials)()
+      const clinicalTrials =
+        await getOnGoingClinicalTrials(findClinicalTrials)({ sponsorName: 'Sanofi', countryCode: 'FR' })
 
-      assert.deepEqual(clinicalTrials, onGoingClinicalTrials)
+      assert.deepEqual(clinicalTrials, onGoingClinicalTrials.slice(0, 2))
     })
   })
 })
