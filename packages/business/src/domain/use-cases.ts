@@ -6,4 +6,4 @@ type OnGoingFilter = { sponsorName?: string, countryCode?: CountryCode }
 type GetOnGoingClinicalTrials = (findOnGoingClinicalTrials: FindClinicalTrials) =>
   (filter?: OnGoingFilter) => Promise<ClinicalTrial[]>
 
-export { GetOnGoingClinicalTrials }
+export { GetOnGoingClinicalTrials, OnGoingFilter }
