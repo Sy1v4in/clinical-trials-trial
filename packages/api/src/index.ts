@@ -1,12 +1,4 @@
-import express, { Express, Response } from "express";
+import { startApp } from './app'
 
-const app: Express = express();
-const port = 8080;
+startApp()
 
-app.get("/ping", (_req, res: Response) => {
-  res.send("pong");
-});
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
