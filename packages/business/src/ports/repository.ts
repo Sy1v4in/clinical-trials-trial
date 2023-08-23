@@ -1,13 +1,5 @@
-import { ClinicalTrial, CountryCode } from '../domain'
+import { ClinicalTrial } from '../domain'
 
-type Filter = {
-  sponsorName?: string,
-  countryCode?: CountryCode,
-  before?: Date,
-  after?: Date,
-  cancel?: boolean,
-}
+type FindClinicalTrials = () => Promise<ClinicalTrial[]>
 
-type FindClinicalTrials = (filter?: Filter) => Promise<ClinicalTrial[]>
-
-export { Filter, FindClinicalTrials }
+export { FindClinicalTrials }

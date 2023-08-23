@@ -2,7 +2,7 @@ import path from 'node:path'
 import { readFile } from 'node:fs/promises'
 
 import { COUNTRIES, ClinicalTrial } from '../domain'
-import { Filter, FindClinicalTrials } from '../ports'
+import { FindClinicalTrials } from '../ports'
 
 type ApiClinicalTrial = {
   name: string
@@ -14,10 +14,9 @@ type ApiClinicalTrial = {
 
 const TRIALS_FILE_PATH_FROM_HERE = '/../../../../trials.json'
 
-const findClinicalTrials: FindClinicalTrials = async (filter?: Filter) => {
+const findClinicalTrials: FindClinicalTrials = async () => {
   const fetchedClinicalTrials = await loadJson<ApiClinicalTrial[]>(path.join(__dirname, TRIALS_FILE_PATH_FROM_HERE))
-  const clinicalTrials = fetchedClinicalTrials.map(toClinicalTrial)
-  return filter ? filterClinicalTrials(clinicalTrials, filter) : clinicalTrials
+  return fetchedClinicalTrials.map(toClinicalTrial)
 }
 
 const loadJson = async <T = unknown>(filePath: string): Promise<T> => {
@@ -52,13 +51,5 @@ const parseDate = (englishFormat: string): Date => {
   if (isNaN(year) || isNaN(month) || isNaN(date)) throw new Error(`Bad date format ${englishFormat}`)
   return new Date(year, month - 1, date)
 }
-
-
-const filterClinicalTrials = (clinicalTrials: ClinicalTrial[], filter: Filter) =>
-  clinicalTrials.filter(trial => {
-    return (!filter.after || (trial.endDate.getTime() > filter.after.getTime()))
-      && (!filter.before || (trial.startDate.getTime() < filter.before.getTime()))
-      && (!filter.sponsorName || (trial.sponsor === filter.sponsorName))
-  })
 
 export { findClinicalTrials }
