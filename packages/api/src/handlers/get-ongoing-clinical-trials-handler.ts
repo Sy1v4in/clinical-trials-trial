@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import express from 'express'
 
 import { domain, getOnGoingClinicalTrials } from 'business'
 
@@ -11,10 +11,17 @@ type OngoingClinicalTrial = {
   sponsor: string
 }
 
+type RequestQuery = {
+  sponsor: string
+}
+
+type Request = express.Request<{}, {}, {}, RequestQuery>
+
 const getOngoingClinicalTrialsHandler = ({ findClinicalTrials }: Adapters) => {
   const findOnGoingClinicalTrials = getOnGoingClinicalTrials(findClinicalTrials)
-  return async (_req: Request, res: Response) => {
-    const onGoingClinicalTrials = await findOnGoingClinicalTrials()
+  return async (req: Request, res: express.Response) => {
+    const { sponsor } = req.query
+    const onGoingClinicalTrials = await findOnGoingClinicalTrials({ sponsorName: sponsor })
     res.status(200).json(onGoingClinicalTrials.map(toOngoingClinicalTrial))
   }
 }
