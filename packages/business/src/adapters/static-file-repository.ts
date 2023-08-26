@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { readFile } from 'node:fs/promises'
 
-import { COUNTRIES, ClinicalTrial } from '../domain'
+import { COUNTRIES, ClinicalTrial, Country, guards } from '../domain'
 import { FindClinicalTrials } from '../ports'
 
 type ApiClinicalTrial = {
@@ -31,7 +31,12 @@ const toClinicalTrial = (apiClinicalTrial: ApiClinicalTrial): ClinicalTrial => {
   const endDate = parseDate(apiClinicalTrial.end_date)
   if (!endDate) throw new Error(`Bad end date ${apiClinicalTrial.end_date}`)
 
-  const country = COUNTRIES[apiClinicalTrial.country.toUpperCase()]
+  const apiCountry = apiClinicalTrial.country.toUpperCase()
+  const countryCode = guards.isCountryCode(apiCountry) ? apiCountry : null
+  const country: Country = {
+    code: countryCode,
+    name: COUNTRIES[countryCode.toUpperCase()],
+  }
   if (!country) throw new Error(`Bad country ${apiClinicalTrial.country}`)
 
   return {
