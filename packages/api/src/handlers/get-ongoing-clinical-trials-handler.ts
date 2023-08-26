@@ -10,6 +10,7 @@ type OngoingClinicalTrial = {
   start_date: string
   end_date: string
   sponsor: string
+  country: domain.Country
 }
 
 type ValidatedRequestQuery = {
@@ -51,6 +52,7 @@ const toOngoingClinicalTrial = (clinicalTrial: domain.ClinicalTrial): OngoingCli
   sponsor: clinicalTrial.sponsor,
   start_date: format(clinicalTrial.startDate),
   end_date: format(clinicalTrial.endDate),
+  country: clinicalTrial.country,
 })
 
 const format = (date: Date): string => date.toISOString().split('T')[0]

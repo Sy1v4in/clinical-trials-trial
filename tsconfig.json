@@ -9,5 +9,9 @@
     {
       "path": "./packages/cli"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "esModuleInterop": true
+  }
 }

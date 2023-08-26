@@ -400,6 +400,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/cookiejar", [\
+        ["npm:2.1.2", {\
+          "packageLocation": "./.yarn/cache/@types-cookiejar-npm-2.1.2-2588120a7c-f6e1903454.zip/node_modules/@types/cookiejar/",\
+          "packageDependencies": [\
+            ["@types/cookiejar", "npm:2.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/express", [\
         ["npm:4.17.17", {\
           "packageLocation": "./.yarn/cache/@types-express-npm-4.17.17-46fe8173db-0196dacc27.zip/node_modules/@types/express/",\
@@ -515,6 +524,46 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/sinon", [\
+        ["npm:10.0.16", {\
+          "packageLocation": "./.yarn/cache/@types-sinon-npm-10.0.16-70855a8187-1216aac584.zip/node_modules/@types/sinon/",\
+          "packageDependencies": [\
+            ["@types/sinon", "npm:10.0.16"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/sinonjs__fake-timers", [\
+        ["npm:8.1.2", {\
+          "packageLocation": "./.yarn/cache/@types-sinonjs__fake-timers-npm-8.1.2-278832251f-bbc73a5ab6.zip/node_modules/@types/sinonjs__fake-timers/",\
+          "packageDependencies": [\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/superagent", [\
+        ["npm:4.1.18", {\
+          "packageLocation": "./.yarn/cache/@types-superagent-npm-4.1.18-9a0c411a15-4e50cb41e6.zip/node_modules/@types/superagent/",\
+          "packageDependencies": [\
+            ["@types/superagent", "npm:4.1.18"],\
+            ["@types/cookiejar", "npm:2.1.2"],\
+            ["@types/node", "npm:20.4.5"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/supertest", [\
+        ["npm:2.0.12", {\
+          "packageLocation": "./.yarn/cache/@types-supertest-npm-2.0.12-deccb2551b-f0e2b44f86.zip/node_modules/@types/supertest/",\
+          "packageDependencies": [\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/superagent", "npm:4.1.18"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["accepts", [\
         ["npm:1.3.8", {\
           "packageLocation": "./.yarn/cache/accepts-npm-1.3.8-9a812371c9-50c43d32e7.zip/node_modules/accepts/",\
@@ -552,6 +601,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@faker-js/faker", "npm:8.0.2"],\
             ["@types/express", "npm:4.17.17"],\
             ["@types/node", "npm:20.4.4"],\
+            ["@types/sinon", "npm:10.0.16"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["business", "workspace:packages/business"],\
             ["esbuild", "npm:0.19.2"],\
             ["esbuild-register", "virtual:784ed54a2b6b1245397904ab21c86fbc55b88812b17b4832afeabc2f8d09981cc1c8546d8e8ab1de11f8c69f15a0ea8410b44eb289ae4577c25c661bec84f0a8#npm:3.4.2"],\
@@ -674,7 +725,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["cli", "workspace:packages/cli"],\
             ["@types/node", "npm:20.4.5"],\
+            ["@types/sinon", "npm:10.0.16"],\
             ["commander", "npm:11.0.0"],\
+            ["esbuild", "npm:0.19.2"],\
+            ["esbuild-register", "virtual:784ed54a2b6b1245397904ab21c86fbc55b88812b17b4832afeabc2f8d09981cc1c8546d8e8ab1de11f8c69f15a0ea8410b44eb289ae4577c25c661bec84f0a8#npm:3.4.2"],\
+            ["sinon", "npm:15.2.0"],\
             ["ts-node", "virtual:b35e543feb7d9313e439035ee1f8fc4f39fc5cea9e6f58074f7ab77af6b589006c935e647c030ab32b013753ef64964d1e366d80b46ee7d03aa5fc23397c8718#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"]\
           ],\
