@@ -8,7 +8,7 @@ const generateCountry = (): domain.Country => {
   const randomIndex = Math.floor(Math.random() * countries.length)
   const randomCountry = countries[randomIndex]
   return {
-    code: randomCountry[0] as CountryCode,
+    code: randomCountry[0] as domain.CountryCode,
     name: randomCountry[1],
   }
 }

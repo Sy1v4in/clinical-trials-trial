@@ -13,7 +13,7 @@ import { toOngoingClinicalTrial } from '../../src/handlers/get-ongoing-clinical-
 
 describe('GetOngoingClinicalTrialsHandler', () => {
   let sandbox: sinon.SinonSandbox,
-    findClinicalTrials: sinon.SinonStub<sinon.SinonStubArgs<Filter>, Promise<ClinicalTrial[]>>,
+    findClinicalTrials: sinon.SinonStub<void[], Promise<domain.ClinicalTrial[]>>,
     onGoingClinicalTrials: domain.ClinicalTrial[],
     app: Express
 
