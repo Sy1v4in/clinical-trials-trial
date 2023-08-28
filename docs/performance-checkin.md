@@ -59,3 +59,22 @@ Pull Request #4: 📝  Performance checking documentation
 of each pull request and a rough estimate of the time spent to achieve it.
 
 **time tracking**: ~1h including each PR definitions
+
+
+Pull Request #5: ✨ Improve clinical trials api serialization
+----------------
+
+**description**: Instead of returning only the country code, it seems better to return the code and the country's name
+to avoid extra manipulations later.
+
+**time tracking**: ~1h
+
+
+Pull Request #6: ✨ Implement a `cli`
+----------------
+
+**description**: This is the `inato-cli` command-line interface that displays the list of ongoing clinical trials 
+for a given country code.
+It calls the web server API that is running locally on the user's computer.
+
+**time tracking**: ~2h
