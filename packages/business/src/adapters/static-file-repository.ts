@@ -10,6 +10,7 @@ type ApiClinicalTrial = {
   sponsor: string
   end_date: string
   start_date: string
+  canceled: boolean
 }
 
 const TRIALS_FILE_PATH_FROM_HERE = '/../../../../trials.json'
@@ -45,6 +46,7 @@ const toClinicalTrial = (apiClinicalTrial: ApiClinicalTrial): ClinicalTrial => {
     startDate,
     endDate,
     sponsor: apiClinicalTrial.sponsor,
+    canceled: apiClinicalTrial.canceled,
   }
 }
 
