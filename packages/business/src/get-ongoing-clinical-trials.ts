@@ -1,22 +1,21 @@
 import {ClinicalTrial, GetOnGoingClinicalTrials, OnGoingFilter} from './domain'
 
-type Filter = OnGoingFilter & {
-  before: Date,
-  after: Date,
-}
-
-const getOnGoingClinicalTrials: GetOnGoingClinicalTrials = findClinicalTrials => async (filter) => {
-  const now = new Date()
+const getOnGoingClinicalTrials: GetOnGoingClinicalTrials = findClinicalTrials => async (filter= {}) => {
   const clinicalTrials = await findClinicalTrials()
-  return filter ? filterClinicalTrials(clinicalTrials, { ...filter, before: now, after: now }) : clinicalTrials
+  return filterClinicalTrials(clinicalTrials, filter)
 }
 
-const filterClinicalTrials = (clinicalTrials: ClinicalTrial[], filter: Filter) =>
-  clinicalTrials.filter(trial => {
-    return (trial.endDate.getTime() > filter.after.getTime())
-      && (trial.startDate.getTime() < filter.before.getTime())
+const filterClinicalTrials = (clinicalTrials: ClinicalTrial[], filter: OnGoingFilter) =>
+  clinicalTrials.filter(trial =>
+    isOnGoingClinicalTrial(trial)
       && (!filter.sponsorName || (trial.sponsor === filter.sponsorName))
-      && (!filter.countryCode || (trial.country.code === filter.countryCode))
-  })
+      && (!filter.countryCode || (trial.country.code === filter.countryCode)))
+
+const isOnGoingClinicalTrial = (clinicalTrial: ClinicalTrial): boolean => {
+  const now = new Date()
+  return (clinicalTrial.endDate.getTime() > now.getTime())
+    && (clinicalTrial.startDate.getTime() < now.getTime())
+    && (!clinicalTrial.canceled)
+}
 
 export { getOnGoingClinicalTrials }
