@@ -38,7 +38,9 @@ const getOngoingClinicalTrialsHandler = ({ findClinicalTrials }: Adapters) => {
   return async (req: Request, res: express.Response) => {
     const result = validationResult(req)
     if (!result.isEmpty()) {
-      return res.status(400).json({ errors: result.array() })
+      return res.status(400).json({
+        error: result.array().map((error: FieldValidationError) => `${error.msg} "${error.value}" for ${error.type} ${error.path}`).join("\n")
+      })
     }
 
     const { sponsor, country } = req.query
