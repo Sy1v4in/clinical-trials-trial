@@ -19,6 +19,7 @@ const clinicalTrialsFactory = Factory.Sync.makeFactory<ClinicalTrial>({
   sponsor: Factory.each(() => faker.company.name()),
   startDate: Factory.each(() => faker.date.past()),
   endDate: Factory.each(() => faker.date.future()),
+  canceled: Factory.each(() => false),
 })
 
 export { clinicalTrialsFactory }

@@ -20,6 +20,7 @@ type ClinicalTrial = {
   sponsor: string
   startDate: Date
   endDate: Date
+  canceled: boolean
 }
 
 export { COUNTRIES, Country, CountryCode, CountryName, ClinicalTrial }

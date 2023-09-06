@@ -29,6 +29,31 @@ describe('Get OnGoing clinical trials', () => {
   })
 
   describe('When the repository return some trials', () => {
+    it('should return only not canceled clinical trial', async () => {
+      const onGoingClinicalTrials = [
+        clinicalTrialsFactory.build({ canceled: false }),
+        clinicalTrialsFactory.build({ canceled: true }),
+      ]
+      findClinicalTrials.resolves(onGoingClinicalTrials)
+
+      const clinicalTrials = await getOnGoingClinicalTrials(findClinicalTrials)()
+
+      assert.deepEqual(clinicalTrials, onGoingClinicalTrials.slice(0, 1))
+    })
+
+    it('should return trials with start date in the past and end date in the future ', async () => {
+      const onGoingClinicalTrials = [
+        clinicalTrialsFactory.build({ startDate: faker.date.past(), endDate: faker.date.future() }),
+        clinicalTrialsFactory.build({ startDate: faker.date.future() }),
+        clinicalTrialsFactory.build({ endDate: faker.date.past() }),
+      ]
+      findClinicalTrials.resolves(onGoingClinicalTrials)
+
+      const clinicalTrials = await getOnGoingClinicalTrials(findClinicalTrials)()
+
+      assert.deepEqual(clinicalTrials, onGoingClinicalTrials.slice(0, 1))
+    })
+
     it('should return the matching filtered trials', async () => {
       const onGoingClinicalTrials = [
         clinicalTrialsFactory.build({ sponsor: 'Sanofi', country: { code: 'FR' } }),
