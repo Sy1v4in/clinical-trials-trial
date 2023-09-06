@@ -5,12 +5,7 @@ type ClinicalTrialAPI = {
 }
 
 type BadRequestError = {
-  errors: [{
-    type: string
-    value: string
-    msg: string
-    path: string
-  }]
+  error: string
 }
 
 type UnknownError = {}
@@ -50,8 +45,7 @@ const isBadRequest = (response: Response): boolean => response.status === 400
 const clinicalTrialsMessage = (clinicalTrials: ClinicalTrialAPI[]): string =>
   clinicalTrials.map(trial => `${trial.name}, ${trial.country.name}`).join("\n")
 
-const errorMessage = (error: BadRequestError): string =>
-  error.errors.map(error => `${error.msg} "${error.value}" for ${error.type} ${error.path}`).join("\n")
+const errorMessage = (badRequestError: BadRequestError): string => badRequestError.error
 
 const unknownErrorMessage = (): string =>
   'An unknown error occurred. You can retry in a few moments and contact the development team if the problem persists.'

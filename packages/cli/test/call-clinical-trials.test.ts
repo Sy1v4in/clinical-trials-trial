@@ -81,15 +81,7 @@ Topical Calcipotriene Treatment for Breast Cancer Immunoprevention, France
     it('should return an error message', async () => {
       fetch = sandbox.stub().resolves({
         status: 400,
-        json: sandbox.stub().resolves({
-          errors: [{
-            type: 'field',
-            value: 'FDD',
-            msg: 'Invalid value',
-            path: 'country',
-            location: 'query'
-          }]
-        })
+        json: sandbox.stub().resolves({ error: 'Invalid value "FDD" for field country' })
       })
       const clinicalTrials = await callClinicalTrialsCommand(fetch)('ongoings', { country: "FFF" })
 
