@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises'
 
 import { COUNTRIES, ClinicalTrial, Country, guards } from '../domain'
 import { FindClinicalTrials } from '../ports'
+import { ValidationError } from '../errors'
 
 type ApiClinicalTrial = {
   name: string
@@ -27,10 +28,10 @@ const loadJson = async <T = unknown>(filePath: string): Promise<T> => {
 
 const toClinicalTrial = (apiClinicalTrial: ApiClinicalTrial): ClinicalTrial => {
   const startDate = parseDate(apiClinicalTrial.start_date)
-  if (!startDate) throw new Error(`Bad start date ${apiClinicalTrial.start_date}`)
+  if (!startDate) throw new ValidationError(`Bad start date ${apiClinicalTrial.start_date}`)
 
   const endDate = parseDate(apiClinicalTrial.end_date)
-  if (!endDate) throw new Error(`Bad end date ${apiClinicalTrial.end_date}`)
+  if (!endDate) throw new ValidationError(`Bad end date ${apiClinicalTrial.end_date}`)
 
   const apiCountry = apiClinicalTrial.country.toUpperCase()
   const countryCode = guards.isCountryCode(apiCountry) ? apiCountry : null
@@ -38,7 +39,7 @@ const toClinicalTrial = (apiClinicalTrial: ApiClinicalTrial): ClinicalTrial => {
     code: countryCode,
     name: COUNTRIES[countryCode.toUpperCase()],
   }
-  if (!country) throw new Error(`Bad country ${apiClinicalTrial.country}`)
+  if (!country) throw new ValidationError(`Bad country ${apiClinicalTrial.country}`)
 
   return {
     name: apiClinicalTrial.name,
