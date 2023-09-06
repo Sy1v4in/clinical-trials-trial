@@ -5,7 +5,7 @@ import { faker } from '@faker-js/faker'
 import sinon from 'sinon'
 import request from 'supertest'
 
-import { domain } from 'business'
+import { domain, errors } from 'business'
 
 import { createApp } from '../../src/app'
 import { clinicalTrialsFactory } from '../factories/clinical-trials'
@@ -71,6 +71,28 @@ describe('GetOngoingClinicalTrialsHandler', () => {
         assert.equal(response.statusCode, 200)
         assert.deepEqual(response.body, onGoingClinicalTrials.slice(0, 2).map(toOngoingClinicalTrial))
       })
+    })
+  })
+
+  describe('with failing findClinicalTrials with a Business error', () => {
+    it('should fail with an error 400', async () => {
+      findClinicalTrials.rejects(new errors.ValidationError('Bad date format'))
+
+      const response = await request(app).get('/on-goings')
+
+      assert.equal(response.statusCode, 400)
+      assert.deepEqual(response.body, { error: 'A validation error has occurred: Bad date format' })
+    })
+  })
+
+  describe('with failing findClinicalTrials with a unknown error', () => {
+    it('should fail with an error 400', async () => {
+      findClinicalTrials.rejects(new Error('Oops'))
+
+      const response = await request(app).get('/on-goings')
+
+      assert.equal(response.statusCode, 500)
+      assert.deepEqual(response.body, { error: 'An error occurred: Oops' })
     })
   })
 })

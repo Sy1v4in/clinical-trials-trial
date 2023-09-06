@@ -1,5 +1,5 @@
 import express from 'express'
-import { checkSchema, validationResult } from 'express-validator'
+import { checkSchema, FieldValidationError, validationResult } from 'express-validator'
 
 import { domain, getOnGoingClinicalTrials } from 'business'
 
@@ -35,7 +35,7 @@ const checkValidity = checkSchema({
 
 const getOngoingClinicalTrialsHandler = ({ findClinicalTrials }: Adapters) => {
   const findOnGoingClinicalTrials = getOnGoingClinicalTrials(findClinicalTrials)
-  return async (req: Request, res: express.Response) => {
+  return async (req: Request, res: express.Response, next: express.NextFunction) => {
     const result = validationResult(req)
     if (!result.isEmpty()) {
       return res.status(400).json({
@@ -43,9 +43,13 @@ const getOngoingClinicalTrialsHandler = ({ findClinicalTrials }: Adapters) => {
       })
     }
 
-    const { sponsor, country } = req.query
-    const onGoingClinicalTrials = await findOnGoingClinicalTrials({ sponsorName: sponsor, countryCode: country })
-    res.status(200).json(onGoingClinicalTrials.map(toOngoingClinicalTrial))
+    try {
+      const {sponsor, country} = req.query
+      const onGoingClinicalTrials = await findOnGoingClinicalTrials({sponsorName: sponsor, countryCode: country})
+      res.status(200).json(onGoingClinicalTrials.map(toOngoingClinicalTrial))
+    } catch (e) {
+      next(e)
+    }
   }
 }
 
